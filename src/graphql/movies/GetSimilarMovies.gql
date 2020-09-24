@@ -1,0 +1,13 @@
+#import "./MovieFragment.gql"
+
+query GetSimilarMovies($movieTitle: String) {
+	movie: Movie(title: $movieTitle) {
+		title
+		similarMovies(first: 6) {
+			...movie
+			genre: in_genre(first: 1) {
+				name
+			}
+		}
+	}
+}

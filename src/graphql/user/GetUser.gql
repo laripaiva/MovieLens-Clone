@@ -1,0 +1,6 @@
+#import "./UserFragment.gql"
+query createUser($name: String) {
+	User(name: $name) {
+		...user
+	}
+}

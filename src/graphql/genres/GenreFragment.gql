@@ -1,0 +1,4 @@
+fragment genre on Genre {
+	_id
+	name
+}

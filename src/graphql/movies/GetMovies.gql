@@ -1,0 +1,9 @@
+#import "./MovieFragment.gql"
+query GetMovies($title: String) {
+	movies: Movie(filter: { title_contains: $title }) {
+		...movie
+		genre: in_genre(first: 1) {
+			name
+		}
+	}
+}

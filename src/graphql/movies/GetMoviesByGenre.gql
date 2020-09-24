@@ -1,0 +1,11 @@
+#import "./MovieFragment.gql"
+#import "../genres/GenreFragment.gql"
+
+query GetMoviesByGenre($name: String) {
+	genres: Genre(name: $name) {
+		...genre
+		movies(first: 10, orderBy: year_desc) {
+			...movie
+		}
+	}
+}

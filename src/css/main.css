@@ -1,0 +1,35 @@
+.html {
+	font-family: "Lato", sans-serif !important;
+}
+.body {
+	background-color: #0d0d0d !important;
+	height: 100%;
+	overflow-x: hidden;
+	background-blend-mode: multiply;
+	background-size: auto;
+	background-repeat: repeat;
+}
+.regular {
+	font-weight: 400 !important;
+}
+.bold {
+	font-weight: 700 !important;
+}
+.font12 {
+	font-size: 12px !important;
+}
+.font14 {
+	font-size: 14px !important;
+}
+.font16 {
+	font-size: 16px !important;
+}
+.font18 {
+	font-size: 18px !important;
+}
+.font20 {
+	font-size: 20px !important;
+}
+.font28 {
+	font-size: 28px !important;
+}

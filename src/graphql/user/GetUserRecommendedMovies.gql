@@ -1,0 +1,8 @@
+query GetUserRecommendedMovies($userId: ID!) {
+	User(userId: $userId) {
+		userId
+		recommendedMovies(first: 10) {
+			...movies
+		}
+	}
+}

@@ -22,26 +22,19 @@
 							</span>
 						</ValidationProvider>
 					</v-card-text>
-
 					<v-card-actions class="mt-2 justify-center">
-						<ApolloMutation
-							:mutation="require('@/graphql/user/CreateUser.gql')"
-							:variables="{
-								name,
-							}"
-							@done="saveToken"
-						>
-							<template v-slot="{ mutate, loading, error }">
-								<v-btn
-									@click.native="create(mutate)"
-									color="green darken-3"
-									dark
-								>
-									Create
+						<v-row class="ma-0 pa-0">
+							<v-col cols="6" class="ma-0 pa-0">
+								<v-btn @click.native="deleteUser()" color="red" dark>
+									delete
 								</v-btn>
-								<p v-if="error">An error has occurred!</p>
-							</template>
-						</ApolloMutation>
+							</v-col>
+							<v-col cols="6" class="ma-0 pa-0">
+								<v-btn @click.native="updateName()" color="primary" dark>
+									edit
+								</v-btn>
+							</v-col>
+						</v-row>
 					</v-card-actions>
 				</v-card>
 			</v-col>
@@ -49,9 +42,10 @@
 	</v-container>
 </template>
 <script>
-import { onLogin } from "@/vue-apollo";
+import { onLogout } from "@/vue-apollo";
 export default {
 	data: () => ({
+		userId: undefined,
 		name: undefined,
 		repeated_name: false,
 	}),
@@ -63,7 +57,16 @@ export default {
 		},
 	},
 	methods: {
-		async create(mutate) {
+		async setName() {
+			const user = await this.$apollo.query({
+				query: require("@/graphql/user/GetUser.gql"),
+				variables: {
+					userId: this.userId,
+				},
+			});
+			this.name = user.data.User[0].name;
+		},
+		async updateName(mutate) {
 			this.repeated_name = false;
 			const users = await this.$apollo.query({
 				query: require("@/graphql/user/GetUser.gql"),
@@ -75,21 +78,34 @@ export default {
 			if (users.data.User.length > 0) {
 				this.repeated_name = true;
 			} else {
-				const create = mutate();
+				const edit = await this.$apollo.mutate({
+					mutation: require("@/graphql/user/UpdateUser.gql"),
+					variables: {
+						userId: this.userId,
+						name: this.name,
+					},
+				});
+				location.reload();
 			}
 		},
-		saveToken(result) {
-			const token = result.data.CreateUser.id;
-			onLogin(this.$apollo.provider.defaultClient, token);
+		async deleteUser() {
+			const delete_user = await this.$apollo.mutate({
+				mutation: require("@/graphql/user/DeleteUser.gql"),
+				variables: {
+					userId: this.userId,
+				},
+			});
+			onLogout(this.$apollo.provider.defaultClient);
 			location.reload();
-			this.$router.push("/");
+			this.$router.push("/login");
 		},
 	},
 	mounted() {
-		const token = localStorage.getItem("apollo-token");
-		if (token != null) {
+		this.userId = localStorage.getItem("apollo-token");
+		if (this.userId == null) {
 			this.$router.push("/");
 		}
+		this.setName();
 	},
 };
 </script>

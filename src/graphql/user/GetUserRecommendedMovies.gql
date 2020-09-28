@@ -1,8 +1,12 @@
+#import "../movies/MovieFragment.gql"
 query GetUserRecommendedMovies($userId: ID!) {
-	User(userId: $userId) {
+	user: User(userId: $userId) {
 		userId
 		recommendedMovies(first: 10) {
-			...movies
+			...movie
+			genre: in_genre(first: 1) {
+				name
+			}
 		}
 	}
 }

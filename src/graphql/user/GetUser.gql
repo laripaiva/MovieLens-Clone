@@ -1,6 +1,6 @@
 #import "./UserFragment.gql"
-query createUser($name: String) {
-	User(name: $name) {
+query GetUser($name: String, $userId: ID) {
+	User(name: $name, userId: $userId) {
 		...user
 	}
 }

@@ -1,7 +1,7 @@
 <template>
 	<v-container class="px-0 py-3">
 		<v-row class="ma-0 pa-0">
-			<v-col cols="12" class="ma-0 px-5 py-0">
+			<v-col cols="12" class="ma-0 px-5 py-0" align="center" justify="center">
 				<v-card class="ma-0 pa-5" color="#181818" max-width="400">
 					<v-card-text class="ma-0 pa-0">
 						<ValidationProvider
@@ -17,7 +17,7 @@
 							></v-text-field>
 
 							<span class="red--text">{{ errors[0] }}</span>
-							<span v-if="error" class="red--text"></span>
+							<span v-if="error" class="red--text"> Incorrect name</span>
 						</ValidationProvider>
 					</v-card-text>
 					<v-card-text class="ma-0 pa-0">
@@ -48,16 +48,16 @@ export default {
 	data: () => ({
 		name: undefined,
 		error: false,
-		loading_error: false,
 	}),
 	watch: {
-		error() {
-			this.error = false;
+		name() {
+			if (this.name == null || this.name == "") {
+				this.error = false;
+			}
 		},
 	},
 	methods: {
 		async login() {
-			this.loading_error = true;
 			this.error = false;
 			const user = await this.$apollo.query({
 				query: require("@/graphql/user/GetUser.gql"),
@@ -70,8 +70,6 @@ export default {
 			} else {
 				this.error = true;
 			}
-
-			this.loading_error = false;
 		},
 		saveToken(result) {
 			const token = result.data.User[0].id;

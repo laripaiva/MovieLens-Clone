@@ -5,6 +5,7 @@ Vue.use(Router);
 import Index from "@/views/Main";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
+import Profile from "@/views/Profile";
 
 export default new Router({
 	mode: "history",
@@ -22,6 +23,11 @@ export default new Router({
 		{
 			path: "/register",
 			component: Register,
+			meta: { forVisitors: true },
+		},
+		{
+			path: "/profile",
+			component: Profile,
 			meta: { forVisitors: true },
 		},
 		{

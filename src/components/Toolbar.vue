@@ -8,7 +8,7 @@
 							Movieleens
 						</v-toolbar-title>
 						<v-spacer></v-spacer>
-						<v-btn v-if="token != null" to="/profile" @click="logout()" text>
+						<v-btn v-if="token != null" to="/profile" text>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon dark v-on="on">person</v-icon>
